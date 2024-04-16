@@ -1,6 +1,6 @@
 # Welcome to your CDK TypeScript project
 
-This is code for AWS CDK workshop https://cdkworkshop.com/20-typescript.html
+This is code for [AWS CDK workshop](https://cdkworkshop.com/20-typescript.html)
 
 You should explore the contents of this project. It demonstrates a CDK app with
 an instance of a stack (`CdkWorkshopStack`) which contains an Amazon SQS queue
