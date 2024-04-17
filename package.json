@@ -1,25 +1,29 @@
 {
   "name": "cdk-workshop",
   "version": "0.1.0",
-  "bin": {
-    "cdk-workshop": "bin/cdk-workshop.js"
-  },
+  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
+    "lint": "tsc --noEmit",
+    "prebuild": "rm -rf dist",
+    "build": "node esbuild.config.js",
+    "start": "node dist/cdk-workshop.js",
     "test": "jest",
     "cdk": "cdk"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.137",
     "@types/jest": "^29.5.12",
     "@types/node": "20.11.30",
+    "aws-cdk": "2.137.0",
+    "esbuild": "^0.20.2",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
-    "aws-cdk": "2.137.0",
     "ts-node": "^10.9.2",
     "typescript": "~5.4.3"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.556.0",
+    "@aws-sdk/client-lambda": "^3.556.0",
     "aws-cdk-lib": "2.137.0",
     "constructs": "^10.0.0"
   }
