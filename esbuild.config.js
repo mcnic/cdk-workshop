@@ -21,8 +21,8 @@ await esbuild.build({
   ...options,
 });
 
-// await esbuild.build({
-//   entryPoints: ['src/lambdas/hitcounter.ts'],
-//   outfile: 'dist/lambdas/hitcounter/hitcounter.mjs',
-//   ...options,
-// });
+await esbuild.build({
+  entryPoints: ['src/lambdas/hitcounter.ts'],
+  outfile: 'dist/lambdas/hitcounter/hitcounter.mjs',
+  ...options,
+});
