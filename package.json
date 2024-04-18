@@ -8,7 +8,11 @@
     "build": "node esbuild.config.js",
     "start": "node dist/cdk-workshop.js",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "cdk:bootstrap": "cdk bootstrap",
+    "cdk:diff": "cdk diff",
+    "cdk:deploy": "cdk deploy",
+    "cdk:destroy": "cdk destroy"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.137",
@@ -25,6 +29,7 @@
     "@aws-sdk/client-dynamodb": "^3.556.0",
     "@aws-sdk/client-lambda": "^3.556.0",
     "aws-cdk-lib": "2.137.0",
+    "cdk-dynamo-table-viewer": "^0.2.488",
     "constructs": "^10.0.0"
   }
 }
