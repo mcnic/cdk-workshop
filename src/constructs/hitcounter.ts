@@ -1,6 +1,7 @@
 import { Construct } from 'constructs';
 import { Code, Runtime, Function, IFunction } from 'aws-cdk-lib/aws-lambda';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
+import { RemovalPolicy } from 'aws-cdk-lib';
 
 export interface HitCounterProps {
   downstream: IFunction;
@@ -8,12 +9,14 @@ export interface HitCounterProps {
 
 export class HitCounter extends Construct {
   public readonly handler: Function;
+  public readonly table: Table;
 
   constructor(scope: Construct, id: string, props: HitCounterProps) {
     super(scope, id);
 
-    const table = new Table(this, 'Hits', {
+    this.table = new Table(this, 'Hits', {
       partitionKey: { name: 'path', type: AttributeType.STRING },
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     this.handler = new Function(this, 'HitCounterHandler', {
@@ -22,11 +25,11 @@ export class HitCounter extends Construct {
       code: Code.fromAsset('dist/lambdas/hitcounter'),
       environment: {
         DOWNSTREAM_FUNCTION_NAME: props.downstream.functionName,
-        HITS_TABLE_NAME: table.tableName,
+        HITS_TABLE_NAME: this.table.tableName,
       },
     });
 
-    table.grantReadWriteData(this.handler);
+    this.table.grantReadWriteData(this.handler);
 
     props.downstream.grantInvoke(this.handler);
   }
