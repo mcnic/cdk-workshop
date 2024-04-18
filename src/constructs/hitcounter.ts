@@ -1,6 +1,10 @@
 import { Construct } from 'constructs';
 import { Code, Runtime, Function, IFunction } from 'aws-cdk-lib/aws-lambda';
-import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
+import {
+  AttributeType,
+  Table,
+  TableEncryption,
+} from 'aws-cdk-lib/aws-dynamodb';
 import { RemovalPolicy } from 'aws-cdk-lib';
 
 export interface HitCounterProps {
@@ -17,6 +21,7 @@ export class HitCounter extends Construct {
     this.table = new Table(this, 'Hits', {
       partitionKey: { name: 'path', type: AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
+      encryption: TableEncryption.AWS_MANAGED,
     });
 
     this.handler = new Function(this, 'HitCounterHandler', {
