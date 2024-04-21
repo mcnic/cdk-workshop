@@ -3,6 +3,8 @@ import { beforeAll, expect, test } from 'vitest';
 import { Capture, Template } from 'aws-cdk-lib/assertions';
 import { CdkWorkshopStack } from '../src/cdk-workshop-stack.js';
 import { describe } from 'node:test';
+import { HitCounter } from '../src/constructs/hitcounter.js';
+import { Hello } from '../src/constructs/hello.js';
 
 let appStack: Stack;
 let appTemplate: Template;
@@ -48,6 +50,26 @@ describe('DynamoDB', () => {
     expect(envVars.Variables.HITS_TABLE_NAME.Ref).toSatisfy((val: string) =>
       val.startsWith('HelloHitCounterHits')
     );
+  });
+
+  test('DynamoDB readCapacity', () => {
+    const hello = new Hello(appStack, 'readCapacityHello');
+
+    expect(
+      () =>
+        new HitCounter(appStack, 'readCapacityHelloHitCounter1', {
+          downstream: hello.handler,
+          readCapacity: 3,
+        })
+    ).toThrowError(/readCapacity must be greater than 5 and less than 20/);
+
+    expect(
+      () =>
+        new HitCounter(appStack, 'readCapacityHelloHitCounter2', {
+          downstream: hello.handler,
+          readCapacity: 30,
+        })
+    ).toThrowError(/readCapacity must be greater than 5 and less than 20/);
   });
 });
 
